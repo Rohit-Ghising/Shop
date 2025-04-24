@@ -19,6 +19,13 @@ const Footer = () => {
               required
               className="p-3 w-full border-t border-l border-b border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-gray-500 transition-all"
             />
+            <button
+              type="submit"
+              className="bg-black text-white px-6 py-y text-sm rounded-r-md  hover:bg-gray-800 transition-all"
+            >
+              {" "}
+              Suscribe
+            </button>
           </form>
         </div>
       </div>
