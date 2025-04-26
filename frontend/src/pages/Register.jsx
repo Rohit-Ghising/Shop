@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import login from "../assets/login.webp";
+import register from "../assets/register.webp";
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const handlSubmit = (e) => {
+  const [name, setName] = useState("");
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("logged in :", { email, password });
+    console.log("user registered :", { name, email, password });
   };
   return (
     <div className="flex ">
       <div className="w-full md:w-1/2 flex-col justify-center items-center p-8 md:p-12">
         <form
-          onSubmit={handlSubmit}
+          onSubmit={handleSubmit}
           action=""
           className=" w-full max-w-md  bg-white p-8  rounded-lg border shadow-sm"
         >
@@ -24,6 +25,18 @@ const Login = () => {
           <p className="text-center mb-6 ">
             Enter your username and password to login
           </p>
+          <div className="mb-4">
+            <label htmlFor="" className="block text-sm font-semibold mb-2 ">
+              Name
+            </label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder=" Enter Your name"
+              className={`w-full p-2 border rounded`}
+            />
+          </div>
           <div className="mb-4">
             <label htmlFor="" className="block text-sm font-semibold mb-2 ">
               Email
@@ -52,23 +65,27 @@ const Login = () => {
             type="submit"
             className="w-full bg-black text-white p-2 rounded-lg font-semibold hover:bg-gray-800 transition"
           >
-            Sign in
+            Sign Up
           </button>
           <p className="mt-6 text-center text-sm  ">
-            Don't have account?
-            <Link to="/register" className="text-blue-500 ">
-              Register here
+            Already have account?
+            <Link to="/login" className="text-blue-500 ">
+              Login
             </Link>
           </p>
         </form>
       </div>
       <div className="hidden md:block w1/2 bg-gray-800 ">
         <div className="h-full flex flex-col justify-center items-center">
-          <img src={login} alt="" className="h-[750px] w-full object-cover" />
+          <img
+            src={register}
+            alt=""
+            className="h-[750px] w-full object-cover"
+          />
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;
