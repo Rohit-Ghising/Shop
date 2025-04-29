@@ -1,5 +1,5 @@
 import React from "react";
-import { FaClipboardList, FaStore } from "react-icons/fa";
+import { FaClipboardList, FaSignOutAlt, FaStore } from "react-icons/fa";
 import { FaBoxOpen, FaUser } from "react-icons/fa6";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
@@ -67,7 +67,7 @@ const AdminSideBar = () => {
           onClick={handeleLogout}
           className="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded flex items-center  justify-center space-x-2"
         >
-          Logout
+          <FaSignOutAlt /> <span>Logout</span>
         </button>
       </div>
     </div>
