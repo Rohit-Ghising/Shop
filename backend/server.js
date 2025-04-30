@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const connectDB = require('./config/db')
+const userRoutes = require('./Routes/userRoutes')
 
 // -------------------------------------------------------------------
 const app = express()
@@ -19,4 +20,11 @@ connectDB()
 app.get('/',(req,res)=>{
   res.send("welcome to backend")
 })
+
+// -------------------- api
+app.use('/api/users/', userRoutes)
+// ///////////////////
+
+
+
 app.listen(PORT,()=>{console.log(`server is runnung`)})

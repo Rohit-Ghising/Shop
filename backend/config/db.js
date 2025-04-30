@@ -7,6 +7,7 @@
     
   } catch (err) {
     console.error("MongoBD Connection FAiled",err)
+    process.exit(1)
     
   }
  }
