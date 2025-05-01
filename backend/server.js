@@ -3,6 +3,7 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const connectDB = require('./config/db')
 const userRoutes = require('./Routes/userRoutes')
+const productRoutes = require('./Routes/productRoutes')
 
 // -------------------------------------------------------------------
 const app = express()
@@ -24,6 +25,7 @@ app.get('/',(req,res)=>{
 // -------------------- api
 app.use('/api/users/', userRoutes)
 // ///////////////////
+app.use('/api/products',productRoutes)
 
 
 
