@@ -33,6 +33,9 @@ router.post('/',protect,admin,async(req,res)=>{
 //aces admin
 
 router.put('/:id',protect,admin, async (req,res)=>{
+  if (!req.body) {
+    return res.status(400).json({ message: 'Bad Request: No body found' });
+  }
 
   try {
     const {name,description,price,discountPrice, countInStock, category,brand,sizes,colors,collections,material,gender,images,
@@ -80,6 +83,34 @@ router.put('/:id',protect,admin, async (req,res)=>{
     
   }
 })
+// Detelet product by id
+//access private only admin can dekete 
+
+router.delete("/:id",protect,admin, async(req,res)=>{
+  try {
+    const product = await Product.findById(req.params.id)
+    if(product) {
+      //remove from database
+      await product.deleteOne()
+      res.json({message:"product remove"})
+    }
+    else{
+      res.status(404).json({message:"Product Not Found"})
+    }
+    
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({message:"Server Error"})
+    
+  }
+})
+
+
+module.exports = router
+
+
+
+
 
 
 module.exports = router
