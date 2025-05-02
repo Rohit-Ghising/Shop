@@ -105,6 +105,80 @@ router.delete("/:id",protect,admin, async(req,res)=>{
   }
 })
 
+//get route
+//get all products with optional query
+
+router.get('/',async(req,res)=>{
+  try {
+    const {collection, size,color,gender,minPrice,maxPrice,sortBy,search,category,material,brand,limit} = req.query
+    let query = {}
+
+    //Filter  if ()
+    if(collection && collection.toLocaleLowerCase()!=="all"){
+      query.collections = collection
+    }
+    if(category && category.toLocaleLowerCase()!=="all"){
+      query.category = category
+    }
+    if(material){
+      query.material ={$in:material.split(",")}
+    }
+    if(brand){
+      query.brand ={$in:brand.split(",")}
+    }
+    if(size){
+      query.sizes ={$in:size.split(",")}
+    }
+    if(color){
+      query.colors ={$in:[color]}
+    }
+    if(gender){
+      query.gender =gender
+    }
+    if(minPrice || maxPrice){
+      query.price ={}
+      if(minPrice) query.price.gte = Number(minPrice)
+        if(maxPrice) query.price.lte = Number(maxPrice)
+    }
+  if(search) {
+    query.$or = [{description:{$regx:search,$options:"i"}},
+      
+
+    ]
+  }
+  //SORTLogic
+  let sort ={}
+  if(sortBy){
+    switch(sortBy){
+      case"priceAsc":
+      sort ={price: 1};
+      break;
+      case"priceDesc":
+      sort={price:-1}
+      break;
+      case"popularity":
+      sort ={rating:-1}
+      break 
+      default:
+        break
+
+    }
+  }
+  //Fetch the products from database
+  let products = await Product.find(query).sort(sort).limit(Number(limit)|| 0);
+  res.json(products)
+
+
+
+    
+  } catch (error) {
+    console.error(error)
+    res.status(500).send("Server Error");
+    
+    
+  }
+})
+
 
 module.exports = router
 
@@ -113,6 +187,5 @@ module.exports = router
 
 
 
-module.exports = router
 
 
