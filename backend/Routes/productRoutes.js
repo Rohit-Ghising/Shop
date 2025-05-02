@@ -137,11 +137,11 @@ router.get('/',async(req,res)=>{
     }
     if(minPrice || maxPrice){
       query.price ={}
-      if(minPrice) query.price.gte = Number(minPrice)
-        if(maxPrice) query.price.lte = Number(maxPrice)
+      if(minPrice) query.price.$gte = Number(minPrice)
+        if(maxPrice) query.price.$lte = Number(maxPrice)
     }
   if(search) {
-    query.$or = [{description:{$regx:search,$options:"i"}},
+    query.$or = [{description:{$regex:search,$options:"i"}},
       
 
     ]
@@ -178,6 +178,94 @@ router.get('/',async(req,res)=>{
     
   }
 })
+router.get("/best-seller",async(req,res)=>{
+  try {
+  const bestSeller = await Product.findOne().sort({rating:-1})
+  if(bestSeller){
+    res.json(bestSeller)
+  }
+  else{
+    res.status(404).json({message:"No best seller found"})
+  }
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error")
+    
+    
+  }
+})
+ //newArrivls
+ //Retrive on creation Date
+ //Access publuc
+ 
+router.get("/new-arrivals",async(req,res)=>{
+  try {
+  const newArrivals = await Product.find().sort({createdAt: -1}).limit(8)
+  res.json(newArrivals)
+  
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error")
+    
+    
+  }
+})
+
+//get route for  single product
+//get single produtc bt id
+//Access public
+
+router.get('/:id',async(req,res)=>{
+
+try {
+  const product = await Product.findById(req.params.id)
+  if(product){
+    res.json(product)}
+    else{
+      return res.status(404).json({message:"Product not found"})
+    }
+
+  
+} catch (error) {
+  console.error(error);
+  res.status(500).send('Server error')
+  
+  
+}
+
+
+
+
+})
+
+//get similar product on the basis of id
+//Retive similar products on the basis  of current product
+router.get('/similar/:id', async(req,res)=>{
+  const {id} = req.params
+try {
+  const product = await Product.findById(id)
+  if(!product){
+    return res.status(404).json({message:"No Products Found"})
+  }
+  const similarProducts = await Product.find({_id:{$ne:id},//Exclude current produ tID
+    gender:product.gender,
+    category:product.category,
+
+  }).limit(4)
+  
+  res.json(similarProducts)
+} catch (error) {
+  console.error(error);
+  res.status(500).send("Server Error")
+  
+  
+}
+})
+//Best Seller Rotute
+//hoghes rating is our best seller
+//acess public
 
 
 module.exports = router
