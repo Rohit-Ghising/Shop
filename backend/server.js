@@ -9,6 +9,7 @@ const checkoutRoutes = require ('./Routes/checkoutRoutes')
 const orderRoutes = require('./Routes/orderRoutes')
 const uploadRoutes = require('./Routes/uploadRoutes')
 const subscriberRoutes = require('./Routes/subscriberRoutes')
+const adminRoutes = require('./Routes/adminRoutes')
 
 // -------------------------------------------------------------------
 const app = express()
@@ -36,6 +37,7 @@ app.use('/api/checkout',checkoutRoutes)
 app.use('/api/orders',orderRoutes)
 app.use('/api/upload',uploadRoutes)
 app.use('/api',subscriberRoutes)
+app.use('/api/admin',adminRoutes)
 
 
 
