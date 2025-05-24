@@ -4,7 +4,7 @@ import axios from "axios";
  const userFromStorage =localStorage.getItem('userInfo')? JSON.parse(localStorage.getItem("userInfo")):null
  //Check for existing guest id in the local Storage or generete new One
  const initialGuestId = localStorage.getItem("guestId") || `guest_${new Date().getTime()}`
- localStorage.setItem(guestId, initialGuestId)
+ localStorage.setItem('guestId', initialGuestId)
 
  //Initial State
  const initialState ={
@@ -46,7 +46,7 @@ import axios from "axios";
   reducers:{
     logout:(state)=>{
       state.user=null;
-      state.guestId =`guest_${new Date().getTime}`
+      state.guestId =`guest_${new Date().getTime()}`
       localStorage.removeItem("userInfo")
       localStorage.removeItem("userToken")
       localStorage.setItem("guestId",state.guestId)
