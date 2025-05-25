@@ -75,35 +75,29 @@ const adminProductSlice = createSlice({
       })
       .addCase(fetchAdminProducts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.error.message;
       })
 
-      // Add
-      .addCase(addProduct.fulfilled, (state, action) => {
+      // creaye
+      .addCase(createProduct.fulfilled, (state, action) => {
         state.products.push(action.payload);
       })
-      .addCase(addProduct.rejected, (state, action) => {
-        state.error = action.payload;
-      })
+      
 
       // Update
       .addCase(updateProduct.fulfilled, (state, action) => {
-        const index = state.products.findIndex(p => p.id === action.payload.id);
+        const index = state.products.findIndex((product) => product._id === action.payload._id);
         if (index !== -1) {
           state.products[index] = action.payload;
         }
       })
-      .addCase(updateProduct.rejected, (state, action) => {
-        state.error = action.payload;
-      })
+      
 
       // Delete
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.products = state.products.filter(p => p.id !== action.payload);
+        state.products = state.products.filter((product) => product._id !== action.payload);
       })
-      .addCase(deleteProduct.rejected, (state, action) => {
-        state.error = action.payload;
-      });
+      
   },
 });
 
