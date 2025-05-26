@@ -113,13 +113,25 @@ const ProductDetails = () => {
           </div>
           {/* Main images */}
           <div className="md:w-1/2 ">
-            <div className="mb-4 ">
+            {/* <div className="mb-4 ">
               <img
                 className="w-full h-auto object-cover rounded-lg"
                 src={mainImage}
-                alt=" Main 
-              product"
+                alt=" Main product"
               />
+            </div> */}
+            <div className="mb-4">
+              {mainImage ? (
+                <img
+                  className="w-full h-auto object-cover rounded-lg"
+                  src={mainImage}
+                  alt="Main product"
+                />
+              ) : (
+                <div className="w-full h-64 bg-gray-100 flex items-center justify-center rounded-lg">
+                  <span className="text-gray-400">No Image Available</span>
+                </div>
+              )}
             </div>
           </div>
           {/* Monbile  */}
