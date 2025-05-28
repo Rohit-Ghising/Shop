@@ -3,8 +3,12 @@ import { FaFilter } from "react-icons/fa";
 import FilterSideBar from "../components/Products/FilterSideBar";
 import SortOptions from "../components/Products/SortOptions";
 import ProductGrid from "../components/Products/ProductGrid";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const CollectionPage = () => {
+  const {collection} = useParams()
+  const [searchParams] =useSearchParams()
+  const dispatch
   const [products, setProducts] = useState([]);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
   const sidebarRef = useRef(null);

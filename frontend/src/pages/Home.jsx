@@ -110,7 +110,6 @@ const Home = () => {
 
     fetchBestSeller();
   }, [dispatch]);
-  console.log("Best Seller Product:", bestSellerProduct);
 
   return (
     <div>
@@ -120,7 +119,7 @@ const Home = () => {
 
       <div className="my-8">
         <h2 className="text-3xl text-center font-bold mb-4">Best Seller</h2>
-        {console.log("bestSellerProduct in render:", bestSellerProduct)}
+
         {bestSellerProduct ? (
           <ProductDetails productId={bestSellerProduct._id} />
         ) : (

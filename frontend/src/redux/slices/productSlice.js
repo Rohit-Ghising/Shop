@@ -51,7 +51,7 @@ import axios from "axios";
     name:"products",
     initialState:{
       products:[],
-      selctedProducts:null,//Store the details the single product
+      selectedProduct:null,//Store the details the single product
       similarProducts:[],
       loading:false,
       error:null,
@@ -64,7 +64,7 @@ import axios from "axios";
         minPrice:"",
         maxPrice:"",
         sortBy:"",
-        serach:"",
+        search:"",
         material:"",
         collection:""
       }
@@ -83,7 +83,7 @@ import axios from "axios";
         minPrice:"",
         maxPrice:"",
         sortBy:"",
-        serach:"",
+        search:"",
         material:"",
         collection:""
 
@@ -113,7 +113,7 @@ import axios from "axios";
       })
       .addCase(fetchProductDetails.fulfilled,(state,action)=>{
         state.loading= false
-        state.selctedProducts = action.payload
+        state.selectedProduct = action.payload
       })
       .addCase(fetchProductDetails.rejected,(state,action)=>{
         state.loading = false

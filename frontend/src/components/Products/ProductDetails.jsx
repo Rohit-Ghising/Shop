@@ -281,6 +281,7 @@ const ProductDetails = ({ productId }) => {
   // ✅ Moved all hooks before any return statement
   useEffect(() => {
     if (productFetchId) {
+      console.log("Product Fetch ID:", productFetchId);
       dispatch(fetchProductDetails(productFetchId));
       dispatch(fetchSimilarProducts({ id: productFetchId }));
     }
@@ -290,6 +291,7 @@ const ProductDetails = ({ productId }) => {
     if (selectedProduct?.images?.length > 0) {
       setMainImage(selectedProduct.images[0].url);
     }
+    console.log("Selected product data:", selectedProduct);
   }, [selectedProduct]);
 
   const handleQuantityChange = (action) => {
@@ -493,10 +495,15 @@ const ProductDetails = ({ productId }) => {
             <h2 className="text-2xl text-center font-medium mb-4">
               You May Also Like
             </h2>
-            <ProductGrid products={similarProducts} />
+            <ProductGrid
+              products={similarProducts}
+              loading={loading}
+              error={error}
+            />
           </div>
         </div>
       )}
+      <h1>hello world</h1>
     </div>
   );
 };
