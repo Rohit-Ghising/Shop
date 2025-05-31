@@ -281,7 +281,6 @@ const ProductDetails = ({ productId }) => {
   // ✅ Moved all hooks before any return statement
   useEffect(() => {
     if (productFetchId) {
-      console.log("Product Fetch ID:", productFetchId);
       dispatch(fetchProductDetails(productFetchId));
       dispatch(fetchSimilarProducts({ id: productFetchId }));
     }
@@ -291,7 +290,6 @@ const ProductDetails = ({ productId }) => {
     if (selectedProduct?.images?.length > 0) {
       setMainImage(selectedProduct.images[0].url);
     }
-    console.log("Selected product data:", selectedProduct);
   }, [selectedProduct]);
 
   const handleQuantityChange = (action) => {

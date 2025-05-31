@@ -72,6 +72,8 @@ const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
   const navigate = useNavigate();
   const { user, guestId } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
+  console.log("Cart object:", cart);
+
   const userId = user ? user._id : null;
 
   const handleCheckout = () => {

@@ -1,31 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PayPalButton from "./PaypalButton";
-const cart = {
-  products: [
-    {
-      name: "Srykish jacket",
-      size: "M",
-      color: "White",
-      price: "120",
-      image: "https://picsum.photos/500/500?random=1",
-    },
-    {
-      name: "Srykish jacket",
-      size: "M",
-      color: "Black",
-      price: "120",
-      image: "https://picsum.photos/500/500?random=2",
-    },
-  ],
-  totalPrice: 240,
-};
+import { useDispatch, useSelector } from "react-redux";
+import { createCheckout } from "../../redux/slices/checkoutSlice";
+import axios from "axios";
 
 const Checkout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { cart, error, loading } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
   const handleCreateCheckout = (e) => {
     e.preventDefault();
-    setCheckoutId(123);
+    if (cart && cart.products.length > 0) {
+      const res = dispatch(
+        createCheckout({
+          checkoutItems: cart.products,
+          shippingAddress,
+          paymentMethod: "PayPal",
+          totalPrice: cart.totalPrice,
+        })
+      );
+      if (res.payload && res.payload._id) {
+        setCheckoutId(res.payload._id);
+      }
+    }
   };
   const [checkoutId, setCheckoutId] = useState(null);
   const [shippingAddress, setShippingAddress] = useState({
@@ -37,10 +36,61 @@ const Checkout = () => {
     country: "",
     phone: "",
   });
-  const handlePaymentSucess = (details) => {
-    console.log("paymen", details);
-    navigate("/order-confirmation");
+
+  //ensure cart is loaded before proseeding
+  useEffect(() => {
+    if (!cart || !cart.products || cart.products.length === 0) {
+      navigate("/");
+    }
+  }, [cart, navigate]);
+  const handlePaymentSucess = async (details) => {
+    try {
+      const response = await axios.put(
+        `${import.meta.env.VITE_BACKEND_URL}/api/checkout/pay`,
+        { paymentStatus: "Paid", paymentDetails: details },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        await handleFinalizeCheckout(checkoutId); //finalize checkout
+      } else {
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const handleFinalizeCheckout = async (checkoutId) => {
+    try {
+      const response = await axios.post(
+        `${
+          import.meta.env.VITE_BACKEND_URL
+        }/api/checkout/${checkoutId}/finalize`,
+        {},
+        {
+          headers: {
+            Authorization: `{Bearer ${localStorage.getItem("userToken")}}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        navigate("order-confirmation");
+      } else {
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  if (loading) return <p>Loading Cart..</p>;
+  if (error) return <p>Error:{error}</p>;
+  if (!cart || !cart.products || cart.products.length === 0) {
+    return <p>Your Cart is Empty!</p>;
+  }
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8  max-w-7xl mx-auto py-10 px-6 tracking-tighter">
       {" "}
@@ -55,7 +105,7 @@ const Checkout = () => {
             <input
               type="email"
               placeholder="Enter your email"
-              value="user@exaple.com"
+              value={user ? user.email : ""}
               className="w-full p-2 border rounded"
               disabled
             />
@@ -192,7 +242,7 @@ const Checkout = () => {
                 <h3 className="text-lg mb-4 ">Pay With Paypal</h3>
                 {/* paypalbutton */}
                 <PayPalButton
-                  amount={100}
+                  amount={cart.totalPrice}
                   onSucess={handlePaymentSucess}
                   onError={(err) => alert("paymnet fsiled.try again")}
                 />

@@ -216,6 +216,7 @@ export const addToCart = createAsyncThunk(
         guestId,
         userId,
       });
+      console.log('this is database',response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to add to cart");

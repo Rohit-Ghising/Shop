@@ -63,11 +63,11 @@ import axios from "axios";
       })
       .addCase(loginUser.fulfilled,(state,action)=>{
         state.loading= false
-        state.error = action.payload
+        state.user = action.payload
       })
       .addCase(loginUser.rejected,(state)=>{
         state.loading= false
-        state.error = action.payload.message
+        state.error = action.payload?.message
       })
 
       .addCase(registerUser.pending,(state)=>{
@@ -76,11 +76,11 @@ import axios from "axios";
       })
       .addCase(registerUser.fulfilled,(state,action)=>{
         state.loading= false
-        state.error = action.payload
+        state.user = action.payload
       })
       .addCase(registerUser.rejected,(state)=>{
         state.loading= false
-        state.error = action.payload.message
+        state.error = action.payload?.message
       })
     } 
 
