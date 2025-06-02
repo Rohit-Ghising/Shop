@@ -9,7 +9,7 @@ const orderItemSchema = new mongoose.Schema({
   name: {
     type:String, // optional: store snapshot of product name
   required:true,},
-  image:{
+  images:{
     type:String,
     required:true
   },
@@ -33,7 +33,7 @@ const checkoutSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  checkoutitems: [orderItemSchema],
+  checkoutItems: [orderItemSchema],
   shippingAddress: {
     
     address:{ type: String, required:true},

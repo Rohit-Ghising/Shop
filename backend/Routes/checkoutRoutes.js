@@ -25,7 +25,7 @@ router.post('/', protect, async (req, res) => {
   try {
     const newCheckout = await Checkout.create({
       user: req.user._id,
-      checkoutitems: checkoutItems,  // NOTE: matches your schema field exactly
+      checkoutItems: checkoutItems,  // NOTE: matches your schema field exactly
       shippingAddress,
       paymentMethod,
       totalPrice,
@@ -101,7 +101,7 @@ router.post('/:id/finalize', protect, async (req, res) => {
       totalPrice:checkout.totalPrice,
       isPaid:true,
       paidAt:checkout.paidAt,
-      isDeliverd:false,
+      isDelivered:false,
       paymentStatus:"paid",
       paymentDetails :checkout.paymentDetails
 

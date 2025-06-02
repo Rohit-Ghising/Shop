@@ -40,7 +40,7 @@ router.post('/',async(req,res)=>{
         //add new produts
         cart.products.push({productId,
           name:product.name,
-          image:product.images[0].url,
+          images:product.images[0].url,
           price:product.price,
           size,color,quantity
           //recalculate the price
