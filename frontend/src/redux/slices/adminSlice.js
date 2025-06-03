@@ -148,7 +148,7 @@ export const updateUser = createAsyncThunk('admin/updateUser', async ({ id, name
       Authorization: `Bearer ${localStorage.getItem("userToken")}`
     }
   });
-  return response.data;
+  return response.data;//.user toooo
 });
 
 // Delete user
@@ -194,7 +194,8 @@ const adminSlice = createSlice({
       .addCase(addUser.fulfilled, (state, action) => {
         state.loading = false;
         // state.users.push(action.payload);
-         state.users.push(action.payload.user); 
+         console.log('addUser.fulfilled payload:', action.payload);
+         state.users.push(action.payload)
       })
       .addCase(addUser.rejected, (state, action) => {
         state.loading = false;
