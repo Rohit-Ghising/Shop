@@ -18,7 +18,6 @@ const Profile = () => {
     dispatch(logout());
     dispatch(clearCart());
     navigate("/login");
-    die;
   };
   return (
     <div className=" min-h-screen flex flex-col ">

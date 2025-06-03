@@ -1,31 +1,22 @@
-import React from "react";
-const checkout = {
-  _id: "",
-  createdAt: new Date(),
-  checkoutItems: [
-    {
-      productId: "1",
-      name: "jackest",
-      color: "Red",
-      size: "XL",
-      price: 150,
-      quantity: 1,
-      image: "https://picsum.photos/150?random=1",
-    },
-    {
-      productId: "2",
-      name: "jackest",
-      color: "Red",
-      size: "XL",
-      price: 150,
-      quantity: 1,
-      image: "https://picsum.photos/150?random=2",
-    },
-  ],
-  shippinAddress: { address: "hetfayj", city: "ktm", country: "nsn" },
-};
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../redux/slices/cartSlice";
 
 const OrderConfirmationPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { checkout } = useSelector((state) => state.checkout);
+  //Clear cart when order is confirmed
+  useEffect(() => {
+    if (checkout && checkout._id) {
+      console.log("checkout ordr", checkout);
+      dispatch(clearCart());
+      localStorage.removeItem("cart");
+    } else {
+      navigate("/my-orders");
+    }
+  }, [checkout, dispatch, navigate]);
   const calculateEstimateDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);
     orderDate.setDate(orderDate.getDate() + 10);
@@ -58,10 +49,10 @@ const OrderConfirmationPage = () => {
           </div>
           {/* Order Items */}
           <div className="mb-20 ">
-            {checkout.checkoutItems.map((item) => (
+            {checkout.checkoutItems?.map((item) => (
               <div key={item.productId} className="flex items-center mb-4">
                 <img
-                  src={item.image}
+                  src={item.images}
                   alt={item.name}
                   className="w-16 h-16 object-cover rounded-md marker:mr-4 "
                 />
@@ -88,10 +79,12 @@ const OrderConfirmationPage = () => {
             {/* Delivery */}
             <div>
               <h4 className="text-lg font-semibold mb-2">Delivery</h4>
-              <p className="text-gray-600">{checkout.shippinAddress.address}</p>
               <p className="text-gray-600">
-                a{checkout.shippinAddress.city},{""}
-                {checkout.shippinAddress.country}
+                {checkout.shippingAddress.address}
+              </p>
+              <p className="text-gray-600">
+                {checkout.shippingAddress.city},{""}
+                {checkout.shippingAddress.country}
               </p>
             </div>
           </div>

@@ -160,6 +160,7 @@ import SearchBar from "./SearchBar";
 import CartDrawer from "../Layout/CartDrawer";
 
 const Navbar = () => {
+  const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
   const cartItemCount =
     cart?.products?.reduce((total, product) => total + product.quantity, 0) ||
@@ -216,12 +217,14 @@ const Navbar = () => {
 
         {/* Right Icons */}
         <div className="flex items-center space-x-4">
-          <Link
-            to="/admin"
-            className="bg-black px-2 rounded text-sm text-white"
-          >
-            Admin
-          </Link>
+          {user && user.role === "admin" && (
+            <Link
+              to="/admin"
+              className="bg-black px-2 rounded text-sm text-white"
+            >
+              Admin
+            </Link>
+          )}
 
           <Link to="/profile" className="hover:text-black">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />
