@@ -1,11 +1,61 @@
+// const express = require('express')
+// const cors = require('cors')
+// const dotenv = require('dotenv')
+// const connectDB = require('./config/db')
+// const userRoutes = require('./Routes/userRoutes')
+// const productRoutes = require('./Routes/productRoutes')
+// const cartRoutes = require('./Routes/cartRoutes')
+// const checkoutRoutes = require ('./Routes/checkoutRoutes')
+// const orderRoutes = require('./Routes/orderRoutes')
+// const uploadRoutes = require('./Routes/uploadRoutes')
+// const subscriberRoutes = require('./Routes/subscriberRoutes')
+// const adminRoutes = require('./Routes/adminRoutes')
+// const productAdminRoutes = require('./Routes/productAdminRoutes')
+// const adminOrderRoutes = require('./Routes/adminOrderRoutes')
+
+// // -------------------------------------------------------------------
+// const app = express()
+// app.use(express.json())
+// app.use(cors())
+// // -----------------------------------------------------------
+
+// dotenv.config()
+// // ---------------------------------------------------------
+
+
+// const PORT = process.env.PORT || 3000
+// // -
+// connectDB()
+// app.get('/',(req,res)=>{
+//   res.send("welcome to backend")
+// })
+
+// // -------------------- api
+// app.use('/api/users/', userRoutes)
+// // ///////////////////
+// app.use('/api/products',productRoutes)
+// app.use('/api/cart',cartRoutes)
+// app.use('/api/checkout',checkoutRoutes)
+// app.use('/api/orders',orderRoutes)
+// app.use('/api/upload',uploadRoutes)
+// app.use('/api',subscriberRoutes)
+// app.use('/api/admin',adminRoutes)
+// app.use('/api/admin/products',productAdminRoutes)
+// app.use('/api/admin/orders',adminOrderRoutes)
+
+
+// app.listen(PORT,()=>{console.log(`server is runnung`)})
+
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
 const connectDB = require('./config/db')
+const serverless = require('serverless-http') // ✅ Required for Vercel
+
 const userRoutes = require('./Routes/userRoutes')
 const productRoutes = require('./Routes/productRoutes')
 const cartRoutes = require('./Routes/cartRoutes')
-const checkoutRoutes = require ('./Routes/checkoutRoutes')
+const checkoutRoutes = require('./Routes/checkoutRoutes')
 const orderRoutes = require('./Routes/orderRoutes')
 const uploadRoutes = require('./Routes/uploadRoutes')
 const subscriberRoutes = require('./Routes/subscriberRoutes')
@@ -13,36 +63,31 @@ const adminRoutes = require('./Routes/adminRoutes')
 const productAdminRoutes = require('./Routes/productAdminRoutes')
 const adminOrderRoutes = require('./Routes/adminOrderRoutes')
 
-// -------------------------------------------------------------------
+dotenv.config()
+connectDB()
+
 const app = express()
 app.use(express.json())
 app.use(cors())
-// -----------------------------------------------------------
 
-dotenv.config()
-// ---------------------------------------------------------
-
-
-const PORT = process.env.PORT || 3000
-// -
-connectDB()
-app.get('/',(req,res)=>{
-  res.send("welcome to backend")
+app.get('/', (req, res) => {
+  res.send("Welcome to backend")
 })
 
-// -------------------- api
-app.use('/api/users/', userRoutes)
-// ///////////////////
-app.use('/api/products',productRoutes)
-app.use('/api/cart',cartRoutes)
-app.use('/api/checkout',checkoutRoutes)
-app.use('/api/orders',orderRoutes)
-app.use('/api/upload',uploadRoutes)
-app.use('/api',subscriberRoutes)
-app.use('/api/admin',adminRoutes)
-app.use('/api/admin/products',productAdminRoutes)
-app.use('/api/admin/orders',adminOrderRoutes)
+app.use('/api/users', userRoutes)
+app.use('/api/products', productRoutes)
+app.use('/api/cart', cartRoutes)
+app.use('/api/checkout', checkoutRoutes)
+app.use('/api/orders', orderRoutes)
+app.use('/api/upload', uploadRoutes)
+app.use('/api', subscriberRoutes)
+app.use('/api/admin', adminRoutes)
+app.use('/api/admin/products', productAdminRoutes)
+app.use('/api/admin/orders', adminOrderRoutes)
 
+// ✅ Do NOT listen to a port in Vercel
+// app.listen(PORT, ...) ❌
 
-app.listen(PORT,()=>{console.log(`server is runnung`)})
-
+// ✅ Export for Vercel
+module.exports = app
+module.exports.handler = serverless(app)
