@@ -49,7 +49,7 @@ const OrderConfirmationPage = () => {
           </div>
           {/* Order Items */}
           <div className="mb-20 ">
-            {checkout.checkoutItems?.map((item) => (
+            {checkout.checkoutItems?.map?.((item) => (
               <div key={item.productId} className="flex items-center mb-4">
                 <img
                   src={item.images}

@@ -153,7 +153,7 @@ const EditProductPage = () => {
             onChange={(e) =>
               setProductData({
                 ...productData,
-                sizes: e.target.value.split(",").map((size) => size.trim()),
+                sizes: e.target.value.split(",").map?.((size) => size.trim()),
               })
             }
           />
@@ -172,7 +172,9 @@ const EditProductPage = () => {
             onChange={(e) =>
               setProductData({
                 ...productData,
-                colors: e.target.value.split(",").map((color) => color.trim()),
+                colors: e.target.value
+                  .split(",")
+                  .map?.((color) => color.trim()),
               })
             }
           />
@@ -189,7 +191,7 @@ const EditProductPage = () => {
           />
           {uploading && <p>Uploading image....</p>}
           <div className="flex gap-4 mt-4">
-            {productData.images.map((image, index) => (
+            {productData.images.map?.((image, index) => (
               <div key={index}>
                 <img
                   src={image.url}

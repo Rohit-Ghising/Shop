@@ -36,7 +36,7 @@ const MyOrdersPage = () => {
           </thead>
           <tbody>
             {orders.length > 0 ? (
-              orders.map(
+              orders?.map?.(
                 (order) => (
                   console.log("hekko order", order),
                   (
